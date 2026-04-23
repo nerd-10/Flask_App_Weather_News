@@ -1,21 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather conditions</title>
-    <link href="{{url_for('static', filename='styles/style.css')}}" rel = "stylesheet"/>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dash-Board</title>
+    <link href="{{url_for('static', filename='style.css')}}" rel="stylesheet" />
+  </head>
 
-<body>
-    <h1>Check the weather in your city or air in your city is breathable or not</h1>
-    <form action="/weather" method="GET">
-        <input type="text" value="{{ city | default('') }}" name="city" id="city" placeholder="Please enter the name of city"/>
-        <button type="submit">Submit</button>
+  <body>
+    <h1>Weather & News of your city</h1>
+    <form id="searchForm">
+      <input
+        type="text"
+        id="cityInput"
+        placeholder="Please enter the name of city"
+      />
+      <button type="submit">Submit</button>
     </form>
-{% if error %}
-  <p>{{ error }}</p>
-{% endif %}
 
-</body>
+    <!--Weather-->
+    <div class="container">
+      <div class="weather"></div>
+      <div class="news"></div>
+    </div>
+  </body>
+  <script src="{{url_for('static', filename='script.js')}}"></script>
 </html>

@@ -1,46 +1,22 @@
-from flask import Flask, render_template, request
-import os
-from weather import get_current_weather
-from waitress import serve
+from flask import Flask, render_template, request, session
+from services.weather import get_current_weather
+from services.news import get_news
+
 app = Flask(__name__)
 
 @app.route('/')
-@app.route('/index')
-def index():
+def home():
     return render_template("index.html")
 
-@app.route('/weather',methods=["GET","POST"])
-def get_weather():
-    if request.method == "POST":
-        city = request.form.get("city")
-        #check for empty string or empty spaces
-        if not bool(city.strip()):
-            city = "New Delhi" 
-    else:
-        city = request.args.get("city")
-        ##check for empty string or empty spaces
-        if not city:
-            return render_template("index.html", error="Please type a city name.")
-  
-    weather_data = get_current_weather(city)
-    #city is not found by api
-    if str(weather_data.get("cod")) != "200":
-        return render_template("city_notfound.html", city=city, error="Please enter a valid city name.")
-    
+@app.route("/api/weather")
+def api_weather():
+    city = request.args.get("city","New Delhi")
+    return get_current_weather(city)
 
-    return render_template(
-        "weather.html",city=city,
-        title=weather_data["name"],
-        status=weather_data["weather"][0]['description'].capitalize(),
-        temp=(f"{weather_data['main']['temp']:.1f}"),
-        weather_icon=weather_data["weather"][0]["icon"],
-        feels_like=(f"{weather_data['main']['feels_like']:.1f}"),
-        humidity=(f"{weather_data['main']['humidity']}"),
-        wind_speed=(f"{weather_data['wind']['speed']:.1f}")
-    )
-
-
+@app.route("/api/news")
+def api_news():
+    city = request.args.get("city", "India")
+    return {"articles": get_news(city)}
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))
-    serve(app, host="0.0.0.0", port=port)
+   app.run(debug = True)

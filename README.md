@@ -1,88 +1,140 @@
-# Flask Weather App
+#  Smart Dashboard (Weather + News)
 
-A simple Flask web application that fetches **real-time weather data** using the **OpenWeather API**.
+A dynamic Flask web application that displays:
 
-Users can search any city and view:
+*  Real-time weather data using the OpenWeather API
+*  Latest news headlines using the NewsAPI
 
-- Weather description
-- Temperature (°C)
-- Feels like temperature
-- Humidity
-- Wind speed
-- Weather icon
+Built with a modern architecture where:
 
----
-
-## Features
-
-- Search weather by city name
-- Weather icon display from OpenWeather
-- Input persistence (keeps last searched city)
-- Error handling:
-  - Empty input
-  - Invalid city name
-- Clean UI using HTML + CSS
-- Uses `.env` file to protect API key
-- Production server support using Waitress
+* Flask acts as a backend API
+* JavaScript (Fetch API) handles dynamic UI updates (no page reload)
 
 ---
 
-## Tech Stack
+##  Features
 
-- Python
-- Flask
-- OpenWeather API
-- HTML, CSS (Jinja Templates)
-- Requests
-- Python-dotenv
-- Waitress
+###  Weather
+
+* Search weather by city name
+* Temperature (°C), min/max temperature
+* Humidity and weather description
+* Weather icon display
+
+###  News
+
+* Fetch latest news based on searched city
+* Displays top 5 articles (prevents overflow)
+* Article title, description, and link
+* Optional news images
+
+###  User Experience
+
+* No page reload (fully dynamic updates)
+* Loading states for better UX
+* Error handling (invalid city, API failure)
+* Saves last searched city using localStorage
 
 ---
 
-## Project Structure
+##  Architecture
 
-```txt
-flask_openweather/
-├── fserver.py
-├── weather.py
+Frontend (JavaScript - Fetch API)
+↓
+Flask Backend API (/api/weather, /api/news)
+↓
+External APIs (OpenWeather + NewsAPI)
+
+---
+
+##  Tech Stack
+
+* Python
+* Flask
+* OpenWeather API
+* NewsAPI
+* HTML, CSS (Jinja Templates)
+* JavaScript (Fetch API)
+* Requests
+* Python-dotenv
+* Waitress (for production deployment)
+
+---
+
+##  Project Structure
+
+flask_dashboard/
+├── app.py
+├── services/
+│   ├── weather.py
+│   └── news.py
+│
+├── templates/
+│   └── index.html
+│
+├── static/
+│   ├── style.css
+│   └── script.js
+│
 ├── requirements.txt
 ├── README.md
 ├── .env.example
-├── .gitignore
-│
-├── templates/
-│   ├── index.html
-│   ├── weather.html
-│   └── city_notfound.html
-│
-└── static/
-    └── styles/
-        └── style.css
-```
+└── .gitignore
 
-## Setup Instructions
+---
+
+##  Setup Instructions
 
 ```bash
 # 1) Clone the repository
-git clone https://github.com/nerd-10/openweather-flask-app.git
+git clone https://github.com/nerd-10/Flask_App_Weather_News
 cd openweather-flask-app
 
 # 2) Install dependencies
 pip install -r requirements.txt
 
-# 3) Create a .env file in the project root and add your API key
-# API_KEY=your_openweather_api_key_here
+# 3) Create a .env file and add your API keys
+WEATHER_API_KEY=your_openweather_api_key
+NEWS_API_KEY=your_news_api_key
 
 # 4) Run the app
-python fserver.py
-
-
-# Flask Weather App
-
-## Live Demo
-https://openweather-flask-app.onrender.com/
-
-
-A simple Flask web application that fetches... current weather conditions
-
+python app.py
 ```
+
+---
+
+##  Live Demo
+
+ https://openweather-flask-app.onrender.com/
+
+---
+
+##  Notes
+
+* NewsAPI free tier:
+
+  * May return slightly older articles
+  * May not provide results for smaller cities
+* A fallback to general news is implemented
+
+
+---
+
+##  Version History
+
+* **V1** → Weather app (Flask + templates)
+* **V2** → Added News API
+* **V3** → JavaScript Fetch API (no reload, dynamic UI)
+
+---
+
+##  Author
+
+Made by Nerd Kun
+GitHub: https://github.com/nerd-10
+
+---
+
+##  Support
+
+If you like this project, consider giving it a ⭐ on GitHub!

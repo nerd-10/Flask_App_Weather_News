@@ -4,9 +4,10 @@ import requests
 import os
 
 load_dotenv()
+API_KEY = os.getenv("WEATHER_API_KEY")
 
 def get_current_weather(city="New Delhi"):
-    request_url =f'https://api.openweathermap.org/data/2.5/weather?&appid={os.getenv("API_KEY")}&q={city}&units=metric'
+    request_url =f'https://api.openweathermap.org/data/2.5/weather?&appid={API_KEY}&q={city}&units=metric'
 
     weather_data = requests.get(request_url, timeout=5).json()
 
