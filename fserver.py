@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, session
 from services.weather import get_current_weather
 from services.news import get_news
+import os
+from waitress import serve
 
 app = Flask(__name__)
 
@@ -19,4 +21,5 @@ def api_news():
     return {"articles": get_news(city)}
 
 if __name__ == "__main__":
-   app.run(debug = True)
+    port = int(os.environ.get("PORT", 5000))
+    serve(app, host="0.0.0.0", port=port)
